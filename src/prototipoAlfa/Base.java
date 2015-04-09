@@ -16,7 +16,7 @@ import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 import javax.swing.ImageIcon;
 
-public class Boton {
+public class Base {
 
     private int iX;     //posicion en x.       
     private int iY;     //posicion en y.
@@ -37,7 +37,7 @@ public class Boton {
      * @param imaImagen es la <code>imagen</code> del objeto.
      * 
      */
-    public Boton(int iX, int iY , int iAncho, int iAlto, Image imaImagen) {
+    public Base(int iX, int iY , int iAncho, int iAlto, Image imaImagen) {
         this.iX = iX;
         this.iY = iY;
         this.iAncho = iAncho;
@@ -169,10 +169,10 @@ public class Boton {
      */
     public boolean equals(Object objObjeto) {
         // si el objeto parametro es una instancia de la clase Base
-        if (objObjeto instanceof Boton) {
+        if (objObjeto instanceof Base) {
             // se regresa la comparación entre este objeto que invoca y el
             // objeto recibido como parametro
-            Boton basParam = (Boton) objObjeto;
+            Base basParam = (Base) objObjeto;
             return this.getX() ==  basParam.getX() && 
                     this.getY() == basParam.getY() &&
                     this.getAncho() == basParam.getAncho() &&
