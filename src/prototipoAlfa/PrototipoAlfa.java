@@ -1,14 +1,16 @@
 
 package prototipoAlfa;
 /**
- * MenuPrincipal
+ *PrototipoAlfa
  *
- * ????????????????????????????????????
+ * Es la clase de prototipo alfa en la que se corre el juego de Cyber Bunny
  *
  * @author Fred Roblero Maldonado A01037070
  * @author Iván Alejandro Leal Cervantes A00815154
+ * @author José González Ayerdi A01036121
+ * @author Adrián Gustavo Martínez Quiroga A01280252
  * @version 1.0
- * @date ?2&11&2015
+ * @date ?4&8&2015
  */
 import java.awt.Font;
 import java.awt.Graphics;
@@ -19,24 +21,21 @@ import java.awt.event.KeyListener;
 import java.net.URL;
 import javax.swing.JFrame;
 
-/**
- *
- * @author AntonioM
- */
+
 public class PrototipoAlfa extends JFrame implements Runnable, KeyListener {
     
     private Base basPrincipal;         // Objeto principal
     private Base basMalo;         // Objeto malo
-    private Base basMalo1;         // Objeto malo
-    private Base basMalo2;         // Objeto malo
-    private int iControlImagenes = 0;
-    private long lTimer;
+    private Base basMalo1;         // Objeto malo1
+    private Base basMalo2;         // Objeto malo2
+    private int iControlImagenes = 0; //Entero controlador de Imagenes
+    private long lTimer;            //Variable Long para contar el tiempo
     
     // BOTONES MENU PRINCIPAL
-    private Base basJugar;         // Objeto malo
-    private Base basInstrucciones;         // Objeto malo
-    private Base basScores;         // Objeto malo
-    private Base basCreditos;         // Objeto malo
+    private Base basJugar;         // Objeto Jugar
+    private Base basInstrucciones;         // Objeto Instrucciones
+    private Base basScores;         // Objeto Scores
+    private Base basCreditos;         // Objeto Creditos
     
     
     
@@ -80,7 +79,9 @@ public class PrototipoAlfa extends JFrame implements Runnable, KeyListener {
         basJugar = new Base(50, 450, 260, 70,
                     Toolkit.getDefaultToolkit().getImage(urlBotonJugar));
         // instrucciones
-        URL urlBotonInstrucciones = this.getClass().getResource("btn_Instrucciones.png");
+        URL urlBotonInstrucciones = this.getClass().getResource
+            ("btn_Instrucciones.png");
+        
         basInstrucciones = new Base(450, 400, 200, 50,
                     Toolkit.getDefaultToolkit().getImage(urlBotonInstrucciones));
         
@@ -116,13 +117,11 @@ public class PrototipoAlfa extends JFrame implements Runnable, KeyListener {
      *
      */
     public void run() {
-        /* mientras dure el juego, se actualizan posiciones de jugadores
-         se checa si hubo colisiones para desaparecer jugadores o corregir
-         movimientos y se vuelve a pintar todo
+        /*  Se 
          */ 
-        lTimer = System.currentTimeMillis();
+        lTimer = System.currentTimeMillis(); //Inicia la cuenta del Timer
         
-            repaint();
+            repaint(); //Vuelve a pintar
             try {
                 // El thread se duerme.
                 Thread.sleep(20);
@@ -146,27 +145,32 @@ public class PrototipoAlfa extends JFrame implements Runnable, KeyListener {
      */
     public void paint(Graphics graGrafico) { //UPDATE
         // Inicializan el DoubleBuffer
+        //Inicializa la variable de TiempoActual
           long lTiempoActual = System.currentTimeMillis() - lTimer;
           
-          lTimer += lTiempoActual;
+          lTimer += lTiempoActual; //Se actualiza la variable TiempoActual
           
-        if (imaImagenApplet == null) {
+        if (imaImagenApplet == null) { //Si no hay imagen
             imaImagenApplet = createImage(this.getSize().width,
-                    this.getSize().height);
+                    this.getSize().height); //Creo imagen
             graGraficaApplet = imaImagenApplet.getGraphics();
         }
 
         if (iControlImagenes >= 500 && iControlImagenes <= 600){
             // Actualiza la imagen de fondo.
             URL urlImagenFondo = this.getClass().getResource("background1.jpg");
-            Image imaImagenFondo = Toolkit.getDefaultToolkit().getImage(urlImagenFondo);
-            graGraficaApplet.drawImage(imaImagenFondo, 0, 0, getWidth(), getHeight(), this);
+                    Image imaImagenFondo = Toolkit.getDefaultToolkit().getImage
+                    (urlImagenFondo);
+            graGraficaApplet.drawImage(imaImagenFondo, 0, 0, getWidth(), 
+                    getHeight(), this);
             
         } else {
             // Actualiza la imagen de fondo.
             URL urlImagenFondo = this.getClass().getResource("imagen_fondo.gif");
-            Image imaImagenFondo = Toolkit.getDefaultToolkit().getImage(urlImagenFondo);
-            graGraficaApplet.drawImage(imaImagenFondo, 0, 0, getWidth(), getHeight(), this);
+            Image imaImagenFondo = Toolkit.getDefaultToolkit().
+                    getImage(urlImagenFondo);
+            graGraficaApplet.drawImage(imaImagenFondo, 0, 0, getWidth(), 
+                    getHeight(), this);
         }
         // Actualiza el Foreground.
         graGraficaApplet.setColor(getForeground());
@@ -193,49 +197,57 @@ public class PrototipoAlfa extends JFrame implements Runnable, KeyListener {
         // si la imagen ya se cargo
         if (basPrincipal != null) {
             iControlImagenes ++;
-            
+            //Primera Pantalla
             if (iControlImagenes >= 0 && iControlImagenes <= 100 ) {
                 // MENU PRINCIPAL    
                     //Dibuja la imagen de principal en el Applet
                 basPrincipal.paint(graDibujo, this);
                 //Dibuja la imagen de malo en el Applet
                 basMalo.paint(graDibujo, this);
-
+                //Dibuja la imagen de Jugar
                 basJugar.paint(graDibujo, this);
 
-                basInstrucciones.paint(graDibujo, this);
-                basScores.paint(graDibujo, this);
-                basCreditos.paint(graDibujo, this);   
+                basInstrucciones.paint(graDibujo, this);//Dibuja Instrucciones
+                basScores.paint(graDibujo, this); //Dibuja Scores
+                basCreditos.paint(graDibujo, this); //Dibuja Creditos
                 
+                //Se crean los fonts
                 Font font = new Font ("Garamond", Font.BOLD , 48);
                 graDibujo.setFont(font);
                 graDibujo.drawString("TITULO DEL JUEGO", 100, 100);
                 
             }
-            
+            //Segunda Pantalla
             if (iControlImagenes >= 100 && iControlImagenes <= 200) {
                 // INSTRUCCIONES
-                URL urlImagenFondo = this.getClass().getResource("instrucciones.jpg");
-                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().getImage(urlImagenFondo);
-                graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, getWidth(), getHeight(), this);
+                URL urlImagenFondo = this.getClass().
+                        getResource("instrucciones.jpg");
+                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().
+                        getImage(urlImagenFondo);
+                graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 
+                        0, getWidth(), getHeight(), this);
             }
-            
+            //Tercera Pantalla
             if (iControlImagenes >= 200 && iControlImagenes <= 300) {
                 // HIGH SCORE 
                 URL urlImagenFondo = this.getClass().getResource("scores.jpg");
-                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().getImage(urlImagenFondo);
-                graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, getWidth(), getHeight(), this);
+                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().
+                        getImage(urlImagenFondo);
+                graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, 
+                        getWidth(), getHeight(), this);
             }
 
-            
+            //Cuarta Pantalla
             if (iControlImagenes >= 300 && iControlImagenes <= 400) {
                 // CREDITOS
               URL urlImagenFondo = this.getClass().getResource("creditos.jpg");
-              Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().getImage(urlImagenFondo);
-              graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, getWidth(), getHeight(), this);
+              Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().
+                      getImage(urlImagenFondo);
+              graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, 
+                      getWidth(), getHeight(), this);
             }
                
-               
+            //Quinta Pantalla   
              if (iControlImagenes >= 400 && iControlImagenes <= 500) {
                  // JUEGO
                  basPrincipal.paint(graDibujo, this);
@@ -243,17 +255,22 @@ public class PrototipoAlfa extends JFrame implements Runnable, KeyListener {
                  basMalo1.paint(graDibujo, this);
                  basMalo2.paint(graDibujo, this);
             }
-             
+             //Sexta Pantalla
              if (iControlImagenes >= 500 && iControlImagenes <= 600) {
                  // PAUSA
-                URL urlImagenPrincipal = this.getClass().getResource("bunny1.png");
+                URL urlImagenPrincipal = this.getClass().
+                        getResource("bunny1.png");
                 URL urlImagenMalo = this.getClass().getResource("cat1.png");
                 
-                basPrincipal.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenPrincipal));
+                basPrincipal.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenPrincipal));
 
-                basMalo.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenMalo));
-                basMalo1.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenMalo));
-                basMalo2.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenMalo));
+                basMalo.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenMalo));
+                basMalo1.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenMalo));
+                basMalo2.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenMalo));
                 
                  basPrincipal.paint(graDibujo, this);
                  basMalo.paint(graDibujo, this);
@@ -261,42 +278,59 @@ public class PrototipoAlfa extends JFrame implements Runnable, KeyListener {
                  basMalo2.paint(graDibujo, this);
                 
                 URL urlImagenFondo = this.getClass().getResource("pausa.png");
-                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().getImage(urlImagenFondo);
-                graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, getWidth(), getHeight(), this);
+                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().
+                        getImage(urlImagenFondo);
+                graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, 
+                        getWidth(), getHeight(), this);
                 
             }
+             //Septima Pantalla
              if (iControlImagenes >= 600 && iControlImagenes <= 700) {
              // NIVEL COMPLETADO
-                URL urlImagenFondo = this.getClass().getResource("nivelCompletado.gif");
-                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().getImage(urlImagenFondo);
-                graGraficaApplet.drawImage(imaImagenInstrucciones, 0 , 0, getWidth(), getHeight(), this);
+                URL urlImagenFondo = this.getClass().
+                        getResource("nivelCompletado.gif");
+                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().
+                        getImage(urlImagenFondo);
+                graGraficaApplet.drawImage(imaImagenInstrucciones, 0 , 0, 
+                        getWidth(), getHeight(), this);
                 
                 
-                URL urlImagenPrincipal = this.getClass().getResource("principal.gif");
-                basPrincipal.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenPrincipal));
+                URL urlImagenPrincipal = this.getClass().
+                        getResource("principal.gif");
+                basPrincipal.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenPrincipal));
                 
                 basPrincipal.paint(graDibujo, this);
              }
-                
+                //Octava Pantalla
                if (iControlImagenes >= 700 && iControlImagenes <= 800) {
                  // GAME OVER
-                URL urlImagenPrincipal = this.getClass().getResource("bunny_dead.png");
-                URL urlImagenMalo = this.getClass().getResource("cat1.png");
+                URL urlImagenPrincipal = this.getClass().
+                        getResource("bunny_dead.png");
+                URL urlImagenMalo = this.getClass().
+                        getResource("cat1.png");
                 
-                basPrincipal.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenPrincipal));
+                basPrincipal.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenPrincipal));
 
-                basMalo.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenMalo));
-                basMalo1.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenMalo));
-                basMalo2.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenMalo));
+                basMalo.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenMalo));
+                basMalo1.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenMalo));
+                basMalo2.setImagen(Toolkit.getDefaultToolkit().
+                        getImage(urlImagenMalo));
                 
                  basPrincipal.paint(graDibujo, this);
                  basMalo.paint(graDibujo, this);
                  basMalo1.paint(graDibujo, this);
                  basMalo2.paint(graDibujo, this);
                 
-                 URL urlImagenFondo = this.getClass().getResource("game_over.png");
-                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().getImage(urlImagenFondo);
-                graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, getWidth(), getHeight(), this);
+                 URL urlImagenFondo = this.getClass().
+                         getResource("game_over.png");
+                Image imaImagenInstrucciones = Toolkit.getDefaultToolkit().
+                        getImage(urlImagenFondo);
+                graGraficaApplet.drawImage(imaImagenInstrucciones, 0, 0, 
+                        getWidth(), getHeight(), this);
                 
             }
                
